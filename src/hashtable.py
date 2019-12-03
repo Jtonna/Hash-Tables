@@ -16,24 +16,11 @@ class HashTable:
         self.capacity = capacity  # Number of buckets in the hash table
         self.storage = [None] * capacity
 
-
     def _hash(self, key):
         '''
         Hash an arbitrary key and return an integer.
-
-        You may replace the Python hash with DJB2 as a stretch goal.
         '''
         return hash(key)
-
-
-    def _hash_djb2(self, key):
-        '''
-        Hash an arbitrary key using DJB2 hash
-
-        OPTIONAL STRETCH: Research and implement DJB2
-        '''
-        pass
-
 
     def _hash_mod(self, key):
         '''
@@ -41,7 +28,6 @@ class HashTable:
         within the storage capacity of the hash table.
         '''
         return self._hash(key) % self.capacity
-
 
     def insert(self, key, value):
         '''
@@ -52,9 +38,7 @@ class HashTable:
         Fill this in.
         '''
         pass
-
-
-
+     
     def remove(self, key):
         '''
         Remove the value stored with the given key.
@@ -64,8 +48,7 @@ class HashTable:
         Fill this in.
         '''
         pass
-
-
+    
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
@@ -75,7 +58,6 @@ class HashTable:
         Fill this in.
         '''
         pass
-
 
     def resize(self):
         '''
