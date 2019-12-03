@@ -6,6 +6,7 @@ class LinkedPair:
         self.key = key
         self.value = value
         self.next = None
+
 class HashTable:
     '''
     A hash table that with `capacity` buckets
@@ -42,8 +43,10 @@ class HashTable:
         Hash collisions should be handled with Linked List Chaining.
         '''
         index = self._hash_mod(key)
+
         if self.storage[index] is not None:
             print(f"WARNING: Overwriting data at {index}")
+        
         self.storage[index] = LinkedPair(key, value)
     
     def remove(self, key):
@@ -63,7 +66,15 @@ class HashTable:
         Returns None if the key is not found.
         '''
         index = self._hash_mod(key)
-        return self.storage[index].value
+
+        if self.storage[index] is not [None]:
+            if self.storage[index].key == key:
+                return self.storage[index].value
+            else:
+                print("Warning: Key doesnt match")
+                return None
+        else:
+            return None
     
     def resize(self):
         '''
@@ -75,8 +86,16 @@ class HashTable:
         # for bucket_item in self.storage:
         #     new_storage[]
         # self.storage = new_storage
+
+        self.capacity *=2
+        new_storage = [None] * self.capacity
+
+        for bucket_item in self.storage:
+            if bucket_item is not None:
+                new_index = self._hash_mod(bucket_item.key)
+
         pass
-    
+
 if __name__ == "__main__":
     ht = HashTable(2)
     ht.insert("line_1", "Tiny hash table")
