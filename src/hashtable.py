@@ -1,6 +1,9 @@
 # '''
 # Linked List hash table key/value pair
 # '''
+
+# Hash Collision - when a key hashes to the same value
+# Hash functions are psuedo random 
 class LinkedPair:
     def __init__(self, key, value):
         self.key = key
@@ -9,7 +12,7 @@ class LinkedPair:
 
 class HashTable:
     '''
-    A hash table that with `capacity` buckets
+    A hash table with `capacity` buckets
     that accepts string keys
     '''
     def __init__(self, capacity):
@@ -18,13 +21,13 @@ class HashTable:
 
     def _hash(self, key):
         '''
-        Hash an arbitrary key and return an integer.
+        Hash's an arbitrary key and return an integer.
         '''
         return hash(key)
 
     def _hash_mod(self, key):
         '''
-        Take an arbitrary key and return a valid integer index
+        Takes an arbitrary key and return a valid integer index
         within the storage capacity of the hash table.
         '''
         return self._hash(key) % self.capacity
@@ -32,43 +35,11 @@ class HashTable:
     def insert(self, key, value):
         '''
         Store the value with the given key.
-
+        # Print a warning
         Hash collisions should be handled with Linked List Chaining.
-
         Fill this in.
         '''
-        pass
-     
-    def remove(self, key):
-        '''
-        Remove the value stored with the given key.
-
-        Print a warning if the key is not found.
-
-        Fill this in.
-        '''
-        pass
-    
-    def retrieve(self, key):
-        '''
-        Retrieve the value stored with the given key.
-
-        Returns None if the key is not found.
-
-        Fill this in.
-        '''
-        pass
-
-    def resize(self):
-        '''
-        Doubles the capacity of the hash table and
-        rehash all key/value pairs.
-
-        Fill this in.
-        '''
-        pass
-
-
+        index = self._hash_mod(key)
 
 if __name__ == "__main__":
     ht = HashTable(2)
