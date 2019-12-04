@@ -1,12 +1,15 @@
 class LinkedPair:
+    """
+    We use a linked pair to help handle collisions
+    """
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.next = None # This is used so theres always an extra spot to add to
+        self.next = None # This is used so theres always an extra spot to add values to on the linked list (Linked Pair)
 
 class HashTable:
     def __init__(self, capacity):
-        self.capacity = capacity # Number of buckets in the table, each bucket contains an linked list (linked pair)
+        self.capacity = capacity # Number of buckets in the table, each bucket contains an linked list (Linked Pair)
         self.storage = [None] * capacity
 
     def _hashifier(self, key):
@@ -24,7 +27,14 @@ class HashTable:
         """
         return(self._hashifier(key) % self.capacity)
     
-    def insert():
+    def insert(self, key, value):
+        """
+        We use this when we want to add data to the hash table
+        Sometimes we will create an entirely new index & bucket to contain the data
+        Other times we will add to an existing bucket (LinkedPair)
+        """
+
+        # if the key
         pass
     
     def resize():
