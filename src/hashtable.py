@@ -17,6 +17,7 @@ class HashTable:
         We use the _ in the function declaration to indicate to us that it should never be used outside of blank
         All this does is take in a key, and return the hashed version of it
         """
+        print(f"_hashifier||| key: {key} is now {hash(key)}")
         return(hash(key))
     
     def _hash_modulus(self, key)
@@ -25,6 +26,7 @@ class HashTable:
         We use this when we need a value for indexing 
         we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
+        print(f"_hash_modulus||| key: {key} gets modded by capacity: {self.capacity}")
         return(self._hashifier(key) % self.capacity)
     
     def insert(self, key, value):
@@ -36,8 +38,19 @@ class HashTable:
 
         # if the key
         pass
-    
-    def resize():
+
+    def remove(self):
+        """
+        """
         pass
 
+    def retrieve(self, key):
+        """
+        """
+        pass
+
+    def resize(self):
+        """
+        """
+        pass
 
