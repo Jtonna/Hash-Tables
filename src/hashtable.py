@@ -14,15 +14,15 @@ class HashTable:
         We use the _ in the function declaration to indicate to us that it should never be used outside of blank
         All this does is take in a key, and return the hashed version of it
         """
-        return hash(key)
+        return(hash(key))
     
     def _hash_modulus(self, key)
         """
         We use the _ in the function declaration to indicate to us that it should never be used outside of blank
-        We use this when 
-        All this does is return a value used for indexing, we take the key (modulus %) capacity to return an integer
+        We use this when we need a value for indexing 
+        we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
-        pass
+        return(self._hashifier(key) % self.capacity)
     
     def insert():
         pass
