@@ -44,20 +44,20 @@ class HashTable:
             # Step 3:
             print(f"WARNING:: Overwriting data at {index} with {key}")
 
-        # the index is now our value
-        self.storage[index] = value
+        # The index will become the Linked List & contain Key:value pairs. 
+        self.storage[index] = LinkedPair(Key, Value)
 
     def retrieve(self, key):
         """
         We would use this if we wanted to get data out of the hash table for use anywhere else. All we need is the key
         We also want to return None if they key is not found
         """
+        print(f"    retrieve --- \n       key:{self.storage[index]}")
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
 
-        print(f"    retrieve --- \n       key:{self.storage[index]}")
-        # Step 2: Return the data stored at the index, And If the key is not found it will automatically return None since we set it to None by default
-        return self.storage[index]
+        # Step 2: Return the data stored in the Linked List (linked pair), And If the key is not found it will automatically return None since we set it to None by default
+        return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
             
     def remove(self):
         """
