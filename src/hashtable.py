@@ -52,7 +52,11 @@ class HashTable:
     def retrieve(self, key):
         """
         """
-        pass
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
+        index = self._hash_modulus(key)
+
+        # Step 2: return the data stored at that index
+        return self.storage[index]
 
     def remove(self):
         """
