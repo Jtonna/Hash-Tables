@@ -114,6 +114,16 @@ class HashTable:
     def remove(self, key):
         """
         We use this function when we want to remove an key/value (bucket) from an index
+        We will need to Hash the key the user provides
+        
+        if the index is None, we tell the user theres no data to remove because nothing is there
+
+        loop over the array until we find the index
+            If the index isnt none
+                check to see if the keys match
+                    remove the bucket
+                else
+                    set the current index to the next one and loop again
         If the key isn't found we need to print a warning
         """
 
