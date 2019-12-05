@@ -39,14 +39,44 @@ class HashTable:
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index we need to put the data into
         index = self._hash_modulus(key)
+        print(f"    inserting ---\n        \"{key}\" : \"{value}\" At index {index}")
         
         # Step 2: We need to check to see if the index has anything in its bucket (which is just a key/value pair chained together to form alinked list)
         if self.storage[index] is not None:
-            # Step 3: Print a warning that data is being over written (displaying what key and value it is)
-            print(f"\n! Insert WARNING::\n    Overwriting data at {key}:{index} with {value}\n")
+            # Step 3: keep track of a boolen & the linked list's current key/value pair so we know when inserting the new value and linking it up is completed
+            current_pair = self.storage[index]
+            finished_linking = False
 
-        # Step 4: The index will become the Linked List & contain key:value pairs. 
-        self.storage[index] = LinkedPair(key, value)
+            loop_count = 0
+            while current_pair is not None and not finished_linking:
+                print(f"            Looping over linked list (at index : {index}) to find room to insert \"{key}\" : \"{value}\" || Loop iteration : {loop_count}")
+                # Step 3.1: if the current pair's key (first one in the linked list) is the same one as the one that was passed in we can set the value
+                if current_pair.key is key:
+                    current_pair.value = value
+                    finished_linking = True
+                    print(f"            Current_pair.key is key")
+                    print(f"                Inserting \"{current_pair.key}\" : \"{current_pair.value} into the linked list {index}")
+
+                # Step 3.2: if pair.next ( the next index from the one we were just looking at ) is None, we can insert a new key value pair 
+                elif current_pair.next is None:
+                    print(f"            Current pair is none, this means we can insert here")
+                    print(f"                Inserting \"{current_pair.key}\" : \"{current_pair.value}\" into the linked list at index:{index}")
+                    current_pair.next = LinkedPair(key, value)
+                    finished_linking = True
+
+                # Step 3.3: since we cant find a spot to insert, we should look at the next index in the linked list & start the loop again
+                else:
+                    print(f"        Setting current.pair to the next index to see if theres room.")
+                    loop_count += 1
+                    current_pair = current_pair.next
+
+        # Step 4: If self.storage[index] is None, that means theres room to insert
+        else:
+            print(f"            Found room to insert a bucket in the linked list")
+            print(f"            Inserting \"{key}\" : \"{value}\" at {self.storage[index]}")
+            self.storage[index] = LinkedPair(key, value)
+                
+
 
     def retrieve(self, key):
         """
@@ -133,26 +163,26 @@ if __name__ == "__main__":
     ht.insert("Drama", "Quentin Tarantio")
     print("-------- FINISHED INSERTING DATA --------")
 
-    # Test storing beyond capacity
-    print("-------- STARTING RETRIEVAL OF DATA --------")
-    print(ht.retrieve("Action"))
-    print(ht.retrieve("Sci-fi"))
-    print(ht.retrieve("Dystopian"))
-    print(ht.retrieve("Drama"))
-    print("-------- FINISHED RETRIEVING DATA --------")
+    # # Test storing beyond capacity
+    # print("-------- STARTING RETRIEVAL OF DATA --------")
+    # print(ht.retrieve("Action"))
+    # print(ht.retrieve("Sci-fi"))
+    # print(ht.retrieve("Dystopian"))
+    # print(ht.retrieve("Drama"))
+    # print("-------- FINISHED RETRIEVING DATA --------")
 
-    # Test resizing
-    print(f"****** STARTING HASH TABLE RESIZE ******")
-    old_capacity = len(ht.storage)
-    ht.resize()
-    new_capacity = len(ht.storage)
-    print(f"\n****** Resized from {old_capacity} to {new_capacity}. ******\n")
-    print(f"****** FINISHED HASH TABLE RESIZE ******")
+    # # Test resizing
+    # print(f"****** STARTING HASH TABLE RESIZE ******")
+    # old_capacity = len(ht.storage)
+    # ht.resize()
+    # new_capacity = len(ht.storage)
+    # print(f"\n****** Resized from {old_capacity} to {new_capacity}. ******\n")
+    # print(f"****** FINISHED HASH TABLE RESIZE ******")
 
-    # Test if data intact after resizing
-    print("-------- TESTING IF DATA IS STILL THE SAME --------")
-    print(ht.retrieve("Action"))
-    print(ht.retrieve("Sci-fi"))
-    print(ht.retrieve("Dystopian"))
-    print(ht.retrieve("Drama"))
-    print("-------- FINISHED TESTING IF DATA IS STILL THE SAME --------")
+    # # Test if data intact after resizing
+    # print("-------- TESTING IF DATA IS STILL THE SAME --------")
+    # print(ht.retrieve("Action"))
+    # print(ht.retrieve("Sci-fi"))
+    # print(ht.retrieve("Dystopian"))
+    # print(ht.retrieve("Drama"))
+    # print("-------- FINISHED TESTING IF DATA IS STILL THE SAME --------")
