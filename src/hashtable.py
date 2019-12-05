@@ -111,23 +111,38 @@ class HashTable:
             return None
         
             
-    def remove(self):
+    def remove(self, key):
         """
         We use this function when we want to remove an key/value (bucket) from an index
         If the key isn't found we need to print a warning
         """
-        print(f"remove: index: {index}")
 
-        # Step 1: We need to hash & then mod the key to get an integer so we know what index we should be looking at
+        # Step 1: We hash & mod the key to get an integer, so we know what index we should look at
         index = self._hash_modulus(key)
+        print(f"    remove --- \n       Looking for {key} aka {index}, so we can remove it.")
 
-        # Step 2: We will print a warning if they key wasnt found in the array
+        # Step 2: If the index is already None, theres nothing there and we cant delete anything
         if self.storage[index] is None:
-            print(f"\n! Remove WARNING::\n    key: {self.storage[index]} Not Found")
-            return # Return to end the function & avoid step 3 since we dont need to assign None to something that is already None
+            # Step 2.1: Inform the user theres nothing to delete and end the function
+            print(f"        Key: {index} ({key}), was not found")
+            return
 
-        # Step 3: The way we delete from a Hash Table is to re-assign the index's entire linked list to None since this is the way it started out
-        self.storage[index] = None
+        # Step : While searching is True do something, also set index to current pair to keep track of what we are looking at & a loop count so we know how many times we had to loop over it
+        searching = True
+        current_pair = self.storage[index]
+        loop_count = 0
+        while current_pair is not None and searching is True:
+            print(f"        we are still searching for {key} || loop iteration : {loop_count}")
+
+            # Step 2.1: if the current pairs key matches the key the user passed in, we can set the index to None (since thats how each bucket starts at)
+            if current_pair.key is key:
+                print(f"            key: \"{key}\" found, its value is \"{current_pair.value}\". We are now setting the bucket to None")
+                self.storage[index] = None
+                searching = False
+            # Step 3.1: If they key does not match, we need to set the current index to the next one to start the loop again
+            else:
+                loop_count += 1
+                current_pair = current_pair.next
 
     def resize(self):
         """
