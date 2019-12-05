@@ -222,36 +222,36 @@ Code for testing
 """
 # Code for testing
 if __name__ == "__main__":
-    ht = HashTable(2)
+    ht = HashTable(3)
     print("-------- STARTING INSERT OF DATA --------")
     ht.insert("Action", "Chuck Norris")
-    ht.insert("Action", "Jaskie Chan")
-    ht.insert("Action", "Arnold Schwarzenegger")
+    ht.insert("Action", "Jackie Chan")
+    # ht.insert("Action", "Arnold Schwarzenegger")
     ht.insert("Sci-fi", "Bren Spinner")
-    ht.insert("Dystopian", "Ray Bradbury")
-    ht.insert("Drama", "Quentin Tarantio")
+    # ht.insert("Dystopian", "Ray Bradbury")
+    # ht.insert("Drama", "Quentin Tarantio")
     print("-------- FINISHED INSERTING DATA --------")
 
-    # # Test storing beyond capacity
-    # print("-------- STARTING RETRIEVAL OF DATA --------")
-    # print(ht.retrieve("Action"))
+    # Test storing beyond capacity
+    print("-------- STARTING RETRIEVAL OF DATA --------")
+    print(ht.retrieve("Action"))
     # print(ht.retrieve("Sci-fi"))
     # print(ht.retrieve("Dystopian"))
     # print(ht.retrieve("Drama"))
     # print("-------- FINISHED RETRIEVING DATA --------")
 
     # # Test resizing
-    # print(f"****** STARTING HASH TABLE RESIZE ******")
-    # old_capacity = len(ht.storage)
-    # ht.resize()
-    # new_capacity = len(ht.storage)
-    # print(f"\n****** Resized from {old_capacity} to {new_capacity}. ******\n")
-    # print(f"****** FINISHED HASH TABLE RESIZE ******")
+    print(f"****** STARTING HASH TABLE RESIZE ******")
+    old_storage = len(ht.storage)
+    ht.resize()
+    new_storage = len(ht.storage)
+    print(f"\n****** Resized from {old_storage} to {new_storage}. ******\n")
+    print(f"****** FINISHED HASH TABLE RESIZE ******")
 
     # # Test if data intact after resizing
-    # print("-------- TESTING IF DATA IS STILL THE SAME --------")
-    # print(ht.retrieve("Action"))
-    # print(ht.retrieve("Sci-fi"))
-    # print(ht.retrieve("Dystopian"))
-    # print(ht.retrieve("Drama"))
-    # print("-------- FINISHED TESTING IF DATA IS STILL THE SAME --------")
+    print("-------- TESTING IF DATA IS STILL THE SAME --------")
+    print(ht.retrieve("Action"))
+    print(ht.retrieve("Sci-fi"))
+    print(ht.retrieve("Dystopian"))
+    print(ht.retrieve("Drama"))
+    print("-------- FINISHED TESTING IF DATA IS STILL THE SAME --------")
