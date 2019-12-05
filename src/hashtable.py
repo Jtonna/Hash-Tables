@@ -26,7 +26,7 @@ class HashTable:
         We use this when we need a value for indexing 
         we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
-        print(f"hash_modulus --- \nunhashed key: {key} gets modded by capacity: {self.capacity}")
+        print(f"\n\nhash_modulus --- \nunhashed key: {key} gets modded by capacity: {self.capacity}")
         print(f"    Now sending information to the hashifier.")
         return(self._hashifier(key) % self.capacity)
     
@@ -42,7 +42,7 @@ class HashTable:
         # Step 2: We need to check to see if the index has anything in its bucket (linked list)
         if self.storage[index] is not None:
             # Step 3: Print a warning that data is being over written
-            print(f"WARNING:: Overwriting data at {index} with {key}")
+            print(f"\n! Insert WARNING::\n    Overwriting data at {index} with {key}\n")
 
         # Step 4: The index will become the Linked List & contain Key:value pairs. 
         self.storage[index] = LinkedPair(key, value)
@@ -63,7 +63,7 @@ class HashTable:
             return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
         else:
             # Step 4: print a warning & return None
-            print(f"WARNING:: key:{key} does not match hashed_key:{index}")
+            print(f"\n! Retrieve WARNING::\n    key:{key} does not match hashed_key:{index}")
             return None 
             
     def remove(self):
@@ -78,7 +78,7 @@ class HashTable:
 
         # Step 2: We will print a warning if they key wasnt found
         if self.storage[index] is None:
-            print(f"Key Not Found")
+            print(f"\n! Remove WARNING::\n    key: {self.storage[index]} Not Found")
             return # Return to end the function & avoid step 3 since we dont need to assign None to something that is already None
 
         # Step 3: The way we delete from a Hash Table is to re-assign the index to None since this is the way it started out
@@ -98,11 +98,16 @@ class HashTable:
         self.storage *= 2
         new_storage = [None] * self.capacity
         
-        # Step 2: Loop over the old storage, and re-hash the 
+        # Step 2: Loop over the old storage & for every item do something
         for bucket_item in self.storage:
-            new_storage[bucket_item]
+            # Step 3: If the item has something in it we need to copy it, if not its already set to None
+            if bucket_item is not None:
+                # Step 4: Create a new index to keep track of where what key we are looking at & create a new storage
+                new_index = self._hash_modulus(bucket_item.key)
+                # Step 5: set the new storage to have all of the key value pairs as the old one
+                new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
         
-        # Step 4: Set the new storage to the old storage.
+        # Step 6: Set the new storage to the old storage.
         self.storage = new_storage
 
         
