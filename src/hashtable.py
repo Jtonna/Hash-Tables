@@ -18,7 +18,7 @@ class HashTable:
         All this does is take in a key, and return the hashed version of it using pythons built in hash function (but this can be replaced with dj2b, sha etc...)
         """
         print(f"    hashifier --- \n        key: {key} is now {hash(key)}")
-        return(hash(key))
+        return hash(key)
     
     def _hash_modulus(self, key):
         """
@@ -26,9 +26,10 @@ class HashTable:
         We use this when we need a value for indexing 
         we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
-        print(f"\n\nhash_modulus --- \nunhashed key: {key} gets modded by capacity: {self.capacity}")
+        print(f"\n\nhash_modulus --- \nunhashed key: {key} will get modded by capacity: {self.capacity}")
         print(f"    Now sending information to the hashifier.")
-        return(self._hashifier(key) % self.capacity)
+        print(f"        we should get a key of {hash(key)} & modding that by {self.capacity} should be :{hash(key) % self.capacity}")
+        return self._hashifier(key) % self.capacity
     
     def insert(self, key, value):
         """
@@ -41,10 +42,10 @@ class HashTable:
         
         # Step 2: We need to check to see if the index has anything in its bucket (linked list)
         if self.storage[index] is not None:
-            # Step 3: Print a warning that data is being over written
-            print(f"\n! Insert WARNING::\n    Overwriting data at {index} with {key}\n")
+            # Step 3: Print a warning that data is being over written (displaying what key and value it is)
+            print(f"\n! Insert WARNING::\n    Overwriting data at {key}:{index} with {value}\n")
 
-        # Step 4: The index will become the Linked List & contain Key:value pairs. 
+        # Step 4: The index will become the Linked List & contain key:value pairs. 
         self.storage[index] = LinkedPair(key, value)
 
     def retrieve(self, key):
@@ -55,16 +56,23 @@ class HashTable:
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
-        print(f"    retrieve --- \n       key:{self.storage[index].value}")
 
-        # Step 2: Make sure we are looking at the right key, by comparing the passed in key to the hashed version
-        if self.storage[index].key == key:
-            # Step 3: Return the data stored in the Linked List (linked pair), And If the key is not found it will automatically return None since we set it to None by default
-            return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
+        # Step 2: If the index we are looking at doesnt have anything in it we can go look for the value, else return none
+        if self.storage[index] is not None:
+            # Step 3: double check that the keywe found is the one that was passed in so we know its the one we are looking for
+            if self.storage[index].key == key:
+                print(f"    retrieve --- \n       value: {self.storage[index].value}")
+                # Step 4: Return the data stored in the Linked List (linked pair), And If the key is not found it will automatically return None since we set it to None by default
+                return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
+            else:
+                # Step 5: print a warning & return None
+                print(f"\n! Retrieve WARNING::\n    passed in key:{key} does not match hashed_key:{index}")
+                return None 
         else:
-            # Step 4: print a warning & return None
-            print(f"\n! Retrieve WARNING::\n    key:{key} does not match hashed_key:{index}")
-            return None 
+            print(f"    retrieve --- \n       key doesnt exist but if it did it would be key:{hash(key)}")
+            # Step 6: if were here that means that the index we were looking at is none, we do this to save computational time
+            print(f"\n! Retrieve WARNING::\n    key:{index} is 'None' in the Array, that value must not exist")
+            return None
             
     def remove(self):
         """
@@ -92,10 +100,9 @@ class HashTable:
         We also have to re-hash the new index since the current _hash_modulus is based on the capacity but the capacity is going to double in size
         Once complete we will set the new hash table to the old hash table (overwriting) the data
         """
-        return
 
         # Step 1: Double the size of storage, make a new array with all values set to none
-        self.storage *= 2
+        self.capacity *= 2
         new_storage = [None] * self.capacity
         
         # Step 2: Loop over the old storage & for every item do something
@@ -109,29 +116,43 @@ class HashTable:
         
         # Step 6: Set the new storage to the old storage.
         self.storage = new_storage
-
         
 
 """
 Code for testing
 """
+# Code for testing
 if __name__ == "__main__":
     ht = HashTable(2)
-    ht.insert("line_1", "Tiny hash table")
-    ht.insert("line_2", "Filled beyond capacity")
-    ht.insert("line_3", "Linked list saves the day!")
-    print("")
+    print("-------- STARTING INSERT OF DATA --------")
+    ht.insert("Action", "Chuck Norris")
+    ht.insert("Action", "Jaskie Chan")
+    ht.insert("Action", "Arnold Schwarzenegger")
+    ht.insert("Sci-fi", "Bren Spinner")
+    ht.insert("Dystopian", "Ray Bradbury")
+    ht.insert("Drama", "Quentin Tarantio")
+    print("-------- FINISHED INSERTING DATA --------")
+
     # Test storing beyond capacity
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
+    print("-------- STARTING RETRIEVAL OF DATA --------")
+    print(ht.retrieve("Action"))
+    print(ht.retrieve("Sci-fi"))
+    print(ht.retrieve("Dystopian"))
+    print(ht.retrieve("Drama"))
+    print("-------- FINISHED RETRIEVING DATA --------")
+
     # Test resizing
+    print(f"****** STARTING HASH TABLE RESIZE ******")
     old_capacity = len(ht.storage)
     ht.resize()
     new_capacity = len(ht.storage)
-    print(f"\nResized from {old_capacity} to {new_capacity}.\n")
+    print(f"\n****** Resized from {old_capacity} to {new_capacity}. ******\n")
+    print(f"****** FINISHED HASH TABLE RESIZE ******")
+
     # Test if data intact after resizing
-    print(ht.retrieve("line_1"))
-    print(ht.retrieve("line_2"))
-    print(ht.retrieve("line_3"))
-    print("")
+    print("-------- TESTING IF DATA IS STILL THE SAME --------")
+    print(ht.retrieve("Action"))
+    print(ht.retrieve("Sci-fi"))
+    print(ht.retrieve("Dystopian"))
+    print(ht.retrieve("Drama"))
+    print("-------- FINISHED TESTING IF DATA IS STILL THE SAME --------")
