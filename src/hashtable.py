@@ -59,7 +59,6 @@ class HashTable:
         # Step 2: Return the data stored at the index, And If the key is not found it will automatically return None since we set it to None by default
         return self.storage[index]
             
-
     def remove(self):
         """
         We use this function when we want to remove a value a bucket from the hash table compeletely
@@ -80,12 +79,29 @@ class HashTable:
 
     def resize(self):
         """
-        This gets used when the __ blank is full
+        This gets used when the hash table is full
         We will take the current size of the hash table, multiply it by 2 & create a new hashtable with that value
         Then we will loop over each index and copy the values over into the new hash table
+        We also have to re-hash the new index since the current _hash_modulus is based on the capacity but the capacity is going to double in size
         Once complete we will set the new hash table to the old hash table (overwriting) the data
         """
-        pass
+        
+        # Step 1: Double the size of storage, make a new array with all values set to none
+        self.storage *= 2
+        new_storage = [None] * self.capacity
+
+        # Step 2: Loop over the old array & set each value to what was in the old array
+        for x in range(self.count):
+            new_storage[x] = self.storage[x]
+        
+        # Step 2: Loop over the old storage, and re-hash the 
+        for bucket_item in self.storage:
+            new_storage[bucket_item]
+        
+        # Step 4: Set the new storage to the old storage.
+        self.storage = new_storage
+
+        
 
 """
 Code for testing
