@@ -194,23 +194,27 @@ class HashTable:
                     we can insert the key & value into the new storage
                     we also want to update the bucket we are looking at to the next one to start the loop again
         """
-        pass
 
-        # # Step 1: Double the size of storage, make a new array with all values set to none
-        # self.capacity *= 2
-        # new_storage = [None] * self.capacity
-        
-        # # Step 2: Loop over the old storage & for every item do something
-        # for bucket_item in self.storage:
-        #     # Step 3: If the item has something in it we need to copy it, if not its already set to None
-        #     if bucket_item is not None:
-        #         # Step 4: Create a new index to keep track of where what key we are looking at & create a new storage
-        #         new_index = self._hash_modulus(bucket_item.key)
-        #         # Step 5: set the new storage to have all of the key value pairs as the old one
-        #         new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
-        
-        # # Step 6: Set the new storage to the old storage.
-        # self.storage = new_storage
+        # Step 1: Set the capacity to double the size, make a new storage with all values set to None with the size of the new capacity
+        self.capacity *=2
+        new_storage = [None] * self.capacity
+        storage_shallow_copy = self.storage
+        self.storage = new_storage
+
+        # Step 2: Loop over each index in the shallow copy.
+        for pair in storage_shallow_copy:
+
+            # Step 2.1: If the pair has something in it do something, if its empty we dont need to do anything
+            if pair is not None:
+
+                # Step 2.2: Set the list we are looking at to a shallow copy so we can iterate over it while there are buckets
+                the_current_bucket = pair
+                while the_current_bucket is not None:
+
+                    # Use the insert function to add the key and value to the new storage ( that is now double the size of the previous one )
+                    # We also want to set the current bucket to the next one to continue the loop
+                    self.insert(the_current_bucket.key, the_current_bucket.value)
+                    the_current_bucket = the_current_bucket.next
         
 
 """
