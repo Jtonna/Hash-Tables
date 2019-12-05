@@ -5,11 +5,11 @@ class LinkedPair:
     def __init__(self, key, value):
         self.key = key
         self.value = value
-        self.next = None # This is used so theres always an extra spot to add values to on the linked list (Linked Pair)
+        self.next = None # This is used so theres always an extra spot to add values to on the linked list (Linked Pair) which is just a key/value pair
 
 class HashTable:
     def __init__(self, capacity):
-        self.capacity = capacity # Number of buckets in the table, each bucket contains an linked list (Linked Pair)
+        self.capacity = capacity # Number of buckets in the table, each bucket contains an linked list (Linked Pair) which is just a key/value pair
         self.storage = [None] * capacity
 
     def _hashifier(self, key):
@@ -34,13 +34,13 @@ class HashTable:
     def insert(self, key, value):
         """
         We use this when we want to add data to the hash table
-        Sometimes we will create an entirely new index & bucket to contain the data
-        Other times we will add to an existing bucket (LinkedPair)
+        Sometimes we will create an entirely new index & bucket (which is just a key/value pair) to contain the data
+        Other times we will add to an existing index and growing the linked list
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index we need to put the data into
         index = self._hash_modulus(key)
         
-        # Step 2: We need to check to see if the index has anything in its bucket (linked list)
+        # Step 2: We need to check to see if the index has anything in its bucket (which is just a key/value pair chained together to form alinked list)
         if self.storage[index] is not None:
             # Step 3: Print a warning that data is being over written (displaying what key and value it is)
             print(f"\n! Insert WARNING::\n    Overwriting data at {key}:{index} with {value}\n")
@@ -54,7 +54,7 @@ class HashTable:
         All we need is the CORRECT key to get the right value, since we are using a linked list we have to me sure to return the proper value. 
         We also want to return None if they key is not found
         """
-        # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index to retrieve information from
         index = self._hash_modulus(key)
 
         # Step 2: If the index we are looking at doesnt have anything in it we can go look for the value, else return none
@@ -76,20 +76,20 @@ class HashTable:
             
     def remove(self):
         """
-        We use this function when we want to remove a value a bucket from the hash table compeletely
+        We use this function when we want to remove an key/value (bucket) from an index
         If the key isn't found we need to print a warning
         """
         print(f"remove: index: {index}")
 
-        # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index we should be looking at
         index = self._hash_modulus(key)
 
-        # Step 2: We will print a warning if they key wasnt found
+        # Step 2: We will print a warning if they key wasnt found in the array
         if self.storage[index] is None:
             print(f"\n! Remove WARNING::\n    key: {self.storage[index]} Not Found")
             return # Return to end the function & avoid step 3 since we dont need to assign None to something that is already None
 
-        # Step 3: The way we delete from a Hash Table is to re-assign the index to None since this is the way it started out
+        # Step 3: The way we delete from a Hash Table is to re-assign the index's entire linked list to None since this is the way it started out
         self.storage[index] = None
 
     def resize(self):
