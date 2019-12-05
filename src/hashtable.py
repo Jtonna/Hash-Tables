@@ -49,13 +49,16 @@ class HashTable:
 
     def retrieve(self, key):
         """
+        We would use this if we wanted to get data out of the hash table for use anywhere else. All we need is the key
+        We also want to return None if they key is not found
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
 
         print(f"    retrieve --- \n       key:{self.storage[index]}")
-        # Step 2: return the data stored at that index
+        # Step 2: Return the data stored at the index, And If the key is not found it will automatically return None since we set it to None by default
         return self.storage[index]
+            
 
     def remove(self):
         """
@@ -63,10 +66,9 @@ class HashTable:
         If the key isn't found we need to print a warning
         """
         print(f"remove: index: {index}")
-        
+
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
-
 
         # Step 2: We will print a warning if they key wasnt found
         if self.storage[index] is None:
