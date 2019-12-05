@@ -17,7 +17,7 @@ class HashTable:
         We use the _ in the function declaration to indicate to us that it should never be used outside of this class because it is "protected"
         All this does is take in a key, and return the hashed version of it using pythons built in hash function (but this can be replaced with dj2b, sha etc...)
         """
-        print(f"hashifier --- \n    key: {key} is now {hash(key)}")
+        print(f"    hashifier --- \n        key: {key} is now {hash(key)}")
         return(hash(key))
     
     def _hash_modulus(self, key):
@@ -26,7 +26,8 @@ class HashTable:
         We use this when we need a value for indexing 
         we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
-        print(f"hash_modulus --- \n    key: {key} gets modded by capacity: {self.capacity}")
+        print(f"hash_modulus --- \nunhashed key: {key} gets modded by capacity: {self.capacity}")
+        print(f"    Now sending information to the hashifier.")
         return(self._hashifier(key) % self.capacity)
     
     def insert(self, key, value):
@@ -35,14 +36,13 @@ class HashTable:
         Sometimes we will create an entirely new index & bucket to contain the data
         Other times we will add to an existing bucket (LinkedPair)
         """
-
         # Step 1: We need to hash & then mod the key to get an integer so we know what index we need to put the data into
         index = self._hash_modulus(key)
-
+        
         # Step 2: We need to check to see if the index has anything in its bucket (linked list)
         if self.storage[index] is not None:
             # Step 3:
-            print(f"WARNING:: Overwriting data at {index}")
+            print(f"WARNING:: Overwriting data at {index} with {key}")
 
         # the index is now our value
         self.storage[index] = value
@@ -53,13 +53,28 @@ class HashTable:
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
 
+        print(f"    retrieve --- \n       key:{self.storage[index]}")
         # Step 2: return the data stored at that index
         return self.storage[index]
 
     def remove(self):
         """
+        We use this function when we want to remove a value a bucket from the hash table compeletely
+        If the key isn't found we need to print a warning
         """
-        pass
+        print(f"remove: index: {index}")
+        
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
+        index = self._hash_modulus(key)
+
+
+        # Step 2: We will print a warning if they key wasnt found
+        if self.storage[index] is None:
+            print(f"Key Not Found")
+            return # Return to end the function & avoid step 3 since we dont need to assign None to something that is already None
+
+        # Step 3: The way we delete from a Hash Table is to re-assign the index to None since this is the way it started out
+        self.storage[index] = None
 
     def resize(self):
         """
