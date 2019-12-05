@@ -19,7 +19,7 @@ class HashTable:
         """
         print(f"    hashifier --- \n        key: {key} is now {hash(key)}")
         return hash(key)
-    
+
     def _hash_modulus(self, key):
         """
         We use the _ in the function declaration to indicate to us that it should never be used outside of this class because it is "protected"
@@ -30,7 +30,7 @@ class HashTable:
         print(f"    Now sending information to the hashifier.")
         print(f"        we should get a key of {hash(key)} & modding that by {self.capacity} should be :{hash(key) % self.capacity}")
         return self._hashifier(key) % self.capacity
-    
+
     def insert(self, key, value):
         """
         We use this when we want to add data to the hash table
@@ -46,8 +46,8 @@ class HashTable:
             # Step 3: keep track of a boolen & the linked list's current key/value pair so we know when inserting the new value and linking it up is completed
             current_pair = self.storage[index]
             finished_linking = False
-
             loop_count = 0
+
             while current_pair is not None and not finished_linking:
                 print(f"            Looping over linked list (at index : {index}) to find room to insert \"{key}\" : \"{value}\" || Loop iteration : {loop_count}")
                 # Step 3.1: if the current pair's key (first one in the linked list) is the same one as the one that was passed in we can set the value
@@ -75,8 +75,6 @@ class HashTable:
             print(f"            Found room to insert a bucket in the linked list")
             print(f"            Inserting \"{key}\" : \"{value}\" at {self.storage[index]}")
             self.storage[index] = LinkedPair(key, value)
-                
-
 
     def retrieve(self, key):
         """
@@ -84,25 +82,34 @@ class HashTable:
         All we need is the CORRECT key to get the right value, since we are using a linked list we have to me sure to return the proper value. 
         We also want to return None if they key is not found
         """
-        # Step 1: We need to hash & then mod the key to get an integer so we know what index to retrieve information from
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index to retrieve information from, we also need to keep track of the index we are at
         index = self._hash_modulus(key)
+        current_pair = self.storage[index]
+        loop_count = 0
 
-        # Step 2: If the index we are looking at doesnt have anything in it we can go look for the value, else return none
-        if self.storage[index] is not None:
-            # Step 3: double check that the keywe found is the one that was passed in so we know its the one we are looking for
-            if self.storage[index].key == key:
-                print(f"    retrieve --- \n       value: {self.storage[index].value}")
-                # Step 4: Return the data stored in the Linked List (linked pair), And If the key is not found it will automatically return None since we set it to None by default
-                return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
-            else:
-                # Step 5: print a warning & return None
-                print(f"\n! Retrieve WARNING::\n    passed in key:{key} does not match hashed_key:{index}")
-                return None 
+        # Step 2: If the current pair we are looking at doesnt have anything in it we can go look for the value, else return none
+        if current_pair is not None:
+            # Step 3: While the current_pair we are looking at is NOT None (meaning something is there) we do something
+            while current_pair is not None:
+                print(f"    retrieve --- \n        the current_pair we are looking at has some information in it, lets see the keys match || loop iteration : {loop_count}")
+
+                # Step 3.1: If the key we are looking at is the key that the user is looking for we can return the value
+                if current_pair.key is key:
+                    print(f"            current_pair key: \"{current_pair.key}\" matches the one we were looking for:\"{key}\", now we can return the value {current_pair.value}")
+                    return current_pair.value
+
+                # Step 3.2: If the key's dont match, we need to set the current_pair to the next pair until we find it
+                else:
+                    print(f"            current_pair key: \"{current_pair.key}\" does not match the one we were looking for \"{key}\", lets look at the next one")
+                    loop_count += 1
+                    current_pair = current_pair.next
+
         else:
-            print(f"    retrieve --- \n       key doesnt exist but if it did it would be key:{hash(key)}")
-            # Step 6: if were here that means that the index we were looking at is none, we do this to save computational time
+            print(f"    retrieve --- \n        key doesnt exist but if it did it would be key:{hash(key)}")
+            # Step 4: if were here that means that the index we were looking at is none, we do this to save computational time
             print(f"\n! Retrieve WARNING::\n    key:{index} is 'None' in the Array, that value must not exist")
             return None
+        
             
     def remove(self):
         """
