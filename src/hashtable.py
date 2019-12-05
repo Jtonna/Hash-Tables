@@ -36,6 +36,23 @@ class HashTable:
         We use this when we want to add data to the hash table
         Sometimes we will create an entirely new index & bucket (which is just a key/value pair) to contain the data
         Other times we will add to an existing index and growing the linked list
+
+        If the index (bucket) isnt empty
+            while the index (bucket) is not empty & some boolen is not False
+                if the index is the same as the key
+                    set the value
+                    boolen to true so loop ends
+                check to see if the next bucket is empty
+                    set the value
+                    boolen to true so loop ends
+                else ( meaning that none of the two index's we checked are free for a bucket entry)
+                    set the current index to the next one so the loop repeats
+        else ( if the index is empty )
+            we need to start a new linked list
+
+                
+        else (if the bucket is empty)
+            We add the key/value pair to the bucket since we found an open place to store information
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index we need to put the data into
         index = self._hash_modulus(key)
@@ -116,8 +133,7 @@ class HashTable:
             # Step 4: if were here that means that the index we were looking at is none, we do this to save computational time
             print(f"\n! Retrieve WARNING::\n    key:{index} is 'None' in the Array, that value must not exist")
             return None
-        
-            
+             
     def remove(self, key):
         """
         We use this function when we want to remove an key/value (bucket) from an index
