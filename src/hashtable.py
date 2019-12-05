@@ -45,16 +45,16 @@ class HashTable:
             print(f"WARNING:: Overwriting data at {index} with {key}")
 
         # The index will become the Linked List & contain Key:value pairs. 
-        self.storage[index] = LinkedPair(Key, Value)
+        self.storage[index] = LinkedPair(key, value)
 
     def retrieve(self, key):
         """
         We would use this if we wanted to get data out of the hash table for use anywhere else. All we need is the key
         We also want to return None if they key is not found
         """
-        print(f"    retrieve --- \n       key:{self.storage[index]}")
         # Step 1: We need to hash & then mod the key to get an integer so we know what index's bucket to retrieve information from
         index = self._hash_modulus(key)
+        print(f"    retrieve --- \n       key:{self.storage[index].value}")
 
         # Step 2: Return the data stored in the Linked List (linked pair), And If the key is not found it will automatically return None since we set it to None by default
         return self.storage[index].value # This is .value because we have the key we want and we just want the value associated with it
@@ -85,14 +85,15 @@ class HashTable:
         We also have to re-hash the new index since the current _hash_modulus is based on the capacity but the capacity is going to double in size
         Once complete we will set the new hash table to the old hash table (overwriting) the data
         """
+        return
         
         # Step 1: Double the size of storage, make a new array with all values set to none
         self.storage *= 2
         new_storage = [None] * self.capacity
 
-        # Step 2: Loop over the old array & set each value to what was in the old array
-        for x in range(self.count):
-            new_storage[x] = self.storage[x]
+        # # Step 2: Loop over the old array & set each value to what was in the old array
+        # for x in range(self.count):
+        #     new_storage[x] = self.storage[x]
         
         # Step 2: Loop over the old storage, and re-hash the 
         for bucket_item in self.storage:
