@@ -14,15 +14,15 @@ class HashTable:
 
     def _hashifier(self, key):
         """
-        We use the _ in the function declaration to indicate to us that it should never be used outside of blank
-        All this does is take in a key, and return the hashed version of it
+        We use the _ in the function declaration to indicate to us that it should never be used outside of this class because it is "protected"
+        All this does is take in a key, and return the hashed version of it using pythons built in hash function (but this can be replaced with dj2b, sha etc...)
         """
         print(f"_hashifier||| key: {key} is now {hash(key)}")
         return(hash(key))
     
     def _hash_modulus(self, key)
         """
-        We use the _ in the function declaration to indicate to us that it should never be used outside of blank
+        We use the _ in the function declaration to indicate to us that it should never be used outside of this class because it is "protected"
         We use this when we need a value for indexing 
         we are going to pass the _hashifier the key, we take _hashifier's return and (modulus %) capacity to return an integer that we can use for indexing
         """
@@ -36,15 +36,25 @@ class HashTable:
         Other times we will add to an existing bucket (LinkedPair)
         """
 
-        # if the key
-        pass
+        # Step 1: We need to hash & then mod the key to get an integer so we know what index we need to put the data into
+        index = self._hash_modulus(key)
 
-    def remove(self):
-        """
-        """
+        # Step 2: We need to check to see if the index has anything in its bucket (linked list)
+        if self.storage[index] is not None:
+            # Step 3:
+            print(f"Warning: Overwriting data at {index}")
+
+        # the index is now our value
+        self.storage[index] = value
+
         pass
 
     def retrieve(self, key):
+        """
+        """
+        pass
+
+    def remove(self):
         """
         """
         pass
@@ -53,4 +63,3 @@ class HashTable:
         """
         """
         pass
-
