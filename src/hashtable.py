@@ -79,8 +79,15 @@ class HashTable:
     def retrieve(self, key):
         """
         We would use this if we wanted to get data out of the hash table for use anywhere else.
-        All we need is the CORRECT key to get the right value, since we are using a linked list we have to me sure to return the proper value. 
-        We also want to return None if they key is not found
+
+        If the index we are looking at isn't None
+            while the index is not None  (meaning we arent at the end of the linked list)
+                and the keys match
+                    we can return the value from the key/value pair (aka bucket)
+                if they dont match
+                    set the current index (bucket) to the next one and loop again
+        else:
+            tell the user that we checked the entire linked list and could not find it.
         """
         # Step 1: We need to hash & then mod the key to get an integer so we know what index to retrieve information from, we also need to keep track of the index we are at
         index = self._hash_modulus(key)
