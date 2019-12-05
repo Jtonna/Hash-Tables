@@ -179,28 +179,38 @@ class HashTable:
 
     def resize(self):
         """
-        This gets used when the hash table is full
-        We will take the current size of the hash table, multiply it by 2 & create a new hashtable with that value
-        Then we will loop over each index and copy the values over into the new hash table
-        We also have to re-hash the new index since the current _hash_modulus is based on the capacity but the capacity is going to double in size
-        Once complete we will set the new hash table to the old hash table (overwriting) the data
-        """
+        This gets used when the hash table is full, we resize so we can have more room to add keys
 
-        # Step 1: Double the size of storage, make a new array with all values set to none
-        self.capacity *= 2
-        new_storage = [None] * self.capacity
+        set the current capacity to itself * 2
+        create a new storage with all of its values set to None * the size of the current capacity
+        create a shallow copy of the old storage
+        set the old storage to the new storage
+
+        (since the shallow copy of the old storage is intact, we can copy all of those key & value pairs over into the new storage)
+
+        loop over every entry in the shallow copy
+            if what we are looking at is not empty
+                and while it stays not empty (not at the end of the list)
+                    we can insert the key & value into the new storage
+                    we also want to update the bucket we are looking at to the next one to start the loop again
+        """
+        pass
+
+        # # Step 1: Double the size of storage, make a new array with all values set to none
+        # self.capacity *= 2
+        # new_storage = [None] * self.capacity
         
-        # Step 2: Loop over the old storage & for every item do something
-        for bucket_item in self.storage:
-            # Step 3: If the item has something in it we need to copy it, if not its already set to None
-            if bucket_item is not None:
-                # Step 4: Create a new index to keep track of where what key we are looking at & create a new storage
-                new_index = self._hash_modulus(bucket_item.key)
-                # Step 5: set the new storage to have all of the key value pairs as the old one
-                new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
+        # # Step 2: Loop over the old storage & for every item do something
+        # for bucket_item in self.storage:
+        #     # Step 3: If the item has something in it we need to copy it, if not its already set to None
+        #     if bucket_item is not None:
+        #         # Step 4: Create a new index to keep track of where what key we are looking at & create a new storage
+        #         new_index = self._hash_modulus(bucket_item.key)
+        #         # Step 5: set the new storage to have all of the key value pairs as the old one
+        #         new_storage[new_index] = LinkedPair(bucket_item.key, bucket_item.value)
         
-        # Step 6: Set the new storage to the old storage.
-        self.storage = new_storage
+        # # Step 6: Set the new storage to the old storage.
+        # self.storage = new_storage
         
 
 """
